@@ -11,7 +11,7 @@ class Database
     public function __construct()
     {
         // Check if the server is running on localhost
-        if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
+        if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1' || $_SERVER['SERVER_ADDR'] === '192.168.1.72') {
             // Localhost connection
             $this->host = "localhost";
             $this->db_name = "mawacat";

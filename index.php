@@ -3,13 +3,18 @@
 include_once 'dashboard/admin/authentication/admin-signin.php';
 
 //configuration connection
-include_once 'config/settings-configuration.php';
+include_once 'config/header.php';
+include_once 'config/footer.php';
+
 $config = new SystemConfig();
+$header_signin = new HeaderSignin($config);
+$footer_signin = new FooterSignin();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include_once 'config/header.php'; ?>
+	<?php echo $header_signin->getHeaderSignin() ?>
     <title>Admin | Sign In</title>
 </head>
 <body class="my-login-page">
@@ -58,7 +63,7 @@ $config = new SystemConfig();
 			</div>
 		</div>
 	</section>
-    <?php include_once 'config/footer.php'; ?>
+	<?php echo $footer_signin->getFooterSignin() ?>
 	<script>
 		// CAPTCHA
 			grecaptcha.ready(function() {
