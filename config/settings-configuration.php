@@ -22,6 +22,7 @@ class SystemConfig {
     private $SKey;
     private $SSKey;
     private $google_recaptcha_api_last_update;
+    private $analyzingTime;
 
     public function __construct()
     {
@@ -59,6 +60,14 @@ class SystemConfig {
         $this->SKey = $google['site_key'];
         $this->SSKey = $google['site_secret_key'];
         $this->google_recaptcha_api_last_update = $google['updated_at'];
+
+        $stmt = $this->runQuery("SELECT * FROM analyzing_time LIMIT 1");
+        $stmt->execute(array());
+        $analyzing_time = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->analyzingTime = $analyzing_time['time'];
+
+
     }
 
     public function runQuery($sql)
@@ -120,7 +129,10 @@ class SystemConfig {
         return $this->google_recaptcha_api_last_update;
     }
 
- 
+    public function getanalyzingTime() {
+        return $this->analyzingTime;
+    }
+
 }
 
  // Main URL class

@@ -60,7 +60,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "1em"
+        fontSize: "1.3em"
     }));
 
     pHaxisDataItem.set("value", 0);
@@ -74,8 +74,7 @@
             }
         })
 
-        pHlabel.set("text", value.toFixed(2).toString() + " pH");
-
+        pHlabel.set("text", value.toFixed(2)); // Display with 2 decimal places
 
         pHclockHand.pin.animate({
             key: "fill",
@@ -118,8 +117,6 @@
                 // Use Number.toFixed(2) to format with two decimal places
                 pHaxisDataItem.set("value", Number(interpolatedValue.toFixed(2)));
                 document.getElementById('phValue').value = (interpolatedValue.toFixed(2));
-                document.getElementById('pHlevel1').innerText = (interpolatedValue.toFixed(2)) + ' pH';
-
 
 
                 // Continue animation until duration is reached
@@ -147,11 +144,11 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
-                    document.getElementById('wifi_status').innerText = data.wifi_status;
+                    document.getElementById('wifi_status').innerText = 'Device Status: ' + data.wifi_status;
 
                     if (data.wifi_status === 'Connected' ) {
                         document.getElementById('startBtn').style.display = 'inline-block';
-                        document.getElementById('wifiLoadIcon').style.display = "none";
+                        document.getElementById('analyzingIcon').style.display = "none";
                     } else {
                         document.getElementById('startBtn').style.display = 'none';
                     }
@@ -173,11 +170,11 @@
             function stopUpdating() {
                 clearInterval(updateInterval); // Stop the interval
                 console.log('Stopped updating pH level after 30 seconds.');
-        
                 document.getElementById('analyzingIcon').style.display = "none";
-                document.getElementById('restartBtn').style.display = 'inline-block';                        
-                document.getElementById('saveBtn').style.display = 'inline-block';  
-                                 
+                setTimeout(function() {
+                    document.getElementById('restartBtn').style.display = 'inline-block';                        
+                    document.getElementById('saveBtn').style.display = 'inline-block';  
+                }, 2000);                       
 
             }
     
@@ -364,7 +361,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "0.9em"
+        fontSize: "1.3em"
     }));
 
     TDSaxisDataItem.set("value", 0);
@@ -378,8 +375,7 @@
             }
         })
 
-        TDSlabel.set("text", Math.round(value).toString() + " ppm");
-
+        TDSlabel.set("text", Math.round(value).toString());
 
         TDSclockHand.pin.animate({
             key: "fill",
@@ -422,8 +418,6 @@
                 // Use Number.toFixed(2) to format with two decimal places
                 TDSaxisDataItem.set("value", Number(interpolatedValue.toFixed(0)));
                 document.getElementById('TDSValue').value = (interpolatedValue.toFixed(0));
-                document.getElementById('TDSValue1').innerText = (interpolatedValue.toFixed(0)) + ' ppm';
-
 
 
                 // Continue animation until duration is reached
@@ -444,8 +438,31 @@
     }
 
     function TDSsetupWiFiStatusCheckAndEnableMonitoring() {
+        // This function checks the WiFi status
+        function updateWifiStatus() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    document.getElementById('wifi_status').innerText = 'Device Status: ' + data.wifi_status;
+                    // Show or hide the start button based on WiFi connection status
+                    if (data.wifi_status === 'Connected' ) {
+                        document.getElementById('startBtn').style.display = 'inline-block';
+                        document.getElementById('analyzingIcon').style.display = "none";
+                    } else {
+                        document.getElementById('startBtn').style.display = 'none';
+                    }
+                }
+            };
+            xhr.open('GET', 'controller/arduino-controller.php', true);
+            xhr.send();
+        }
+    
         // This function starts the pH monitoring process
         function startMonitoring() {
+            document.getElementById('startBtn').style.display = 'none';                        
+            document.getElementById('analyzingIcon').style.display = "inline-block";
+
             var startTime = Date.now(); // Record the start time
             var updateInterval; // To hold the interval for updating the pH level
     
@@ -453,6 +470,12 @@
                 clearInterval(updateInterval); // Stop the interval
                 console.log('Stopped updating pH level after 30 seconds.');
                 document.getElementById('analyzingIcon').style.display = "none";
+                
+                setTimeout(function() {
+                    document.getElementById('restartBtn').style.display = 'inline-block';                        
+                    document.getElementById('saveBtn').style.display = 'inline-block';  
+                }, 2000);                      
+
             }
     
             function TDSLevelFetchData() {
@@ -492,7 +515,12 @@
           // Function to restart monitoring
           function restartMonitoring() {
             startMonitoring(); // Start monitoring again
+            document.getElementById('restartBtn').style.display = "none";
+
         }
+    
+        // Initial WiFi status check
+        updateWifiStatus();
     
         // Set up the click event on the "Start Monitoring" button to start monitoring
         document.getElementById('startBtn').addEventListener('click', startMonitoring);
@@ -618,7 +646,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "1em"
+        fontSize: "1.3em"
     }));
 
     turbidity_axisDataItem.set("value", 0);
@@ -632,8 +660,7 @@
             }
         })
 
-        turbidity_label.set("text", Math.round(value).toString() + " NTU");
-
+        turbidity_label.set("text", Math.round(value).toString());
 
         turbidity_clockHand.pin.animate({
             key: "fill",
@@ -676,8 +703,6 @@
                 // Use Number.toFixed(2) to format with two decimal places
                 turbidity_axisDataItem.set("value", Number(interpolatedValue.toFixed(0)));
                 document.getElementById('turbidityValue').value = (interpolatedValue.toFixed(0));
-                document.getElementById('turbidityValue1').innerText = (interpolatedValue.toFixed(0)) + ' NTU';
-
 
 
                 // Continue animation until duration is reached
@@ -698,9 +723,31 @@
     }
 
     function turbidtysetupWiFiStatusCheckAndEnableMonitoring() {
-
+        // This function checks the WiFi status
+        function updateWifiStatus() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    document.getElementById('wifi_status').innerText = 'Device Status: ' + data.wifi_status;
+                    // Show or hide the start button based on WiFi connection status
+                    if (data.wifi_status === 'Connected' ) {
+                        document.getElementById('startBtn').style.display = 'inline-block';
+                        document.getElementById('analyzingIcon').style.display = "none";
+                    } else {
+                        document.getElementById('startBtn').style.display = 'none';
+                    }
+                }
+            };
+            xhr.open('GET', 'controller/arduino-controller.php', true);
+            xhr.send();
+        }
+    
         // This function starts the pH monitoring process
         function startMonitoring() {
+            document.getElementById('startBtn').style.display = 'none';                        
+            document.getElementById('analyzingIcon').style.display = "inline-block";
+
 
             var startTime = Date.now(); // Record the start time
             var updateInterval; // To hold the interval for updating the pH level
@@ -709,6 +756,12 @@
                 clearInterval(updateInterval); // Stop the interval
                 console.log('Stopped updating pH level after 30 seconds.');
                 document.getElementById('analyzingIcon').style.display = "none";
+                
+                setTimeout(function() {
+                    document.getElementById('restartBtn').style.display = 'inline-block';                        
+                    document.getElementById('saveBtn').style.display = 'inline-block';  
+                }, 2000);                      
+
             }
     
             function temperatureLevelFetchData() {
@@ -748,7 +801,11 @@
         // Function to restart monitoring
         function restartMonitoring() {
             startMonitoring(); // Start monitoring again
+            document.getElementById('restartBtn').style.display = "none";
+
         }
+        // Initial WiFi status check
+        updateWifiStatus();
     
         // Set up the click event on the "Start Monitoring" button to start monitoring
         document.getElementById('startBtn').addEventListener('click', startMonitoring);
@@ -936,8 +993,6 @@
                 // Use Number.toFixed(2) to format with two decimal places
                 temperature_axisDataItem.set("value", Number(interpolatedValue.toFixed(0)));
                 document.getElementById('temperatureValue').value = (interpolatedValue.toFixed(0));
-                document.getElementById('temperatureValue1').innerText = (interpolatedValue.toFixed(2)) + '°C';
-
 
 
                 // Continue animation until duration is reached
@@ -959,8 +1014,31 @@
 
 
     function temperaturesetupWiFiStatusCheckAndEnableMonitoring() {
+        // This function checks the WiFi status
+        function updateWifiStatus() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    document.getElementById('wifi_status').innerText = 'Device Status: ' + data.wifi_status;
+                    // Show or hide the start button based on WiFi connection status
+                    if (data.wifi_status === 'Connected' ) {
+                        document.getElementById('startBtn').style.display = 'inline-block';
+                        document.getElementById('analyzingIcon').style.display = "none";
+                    } else {
+                        document.getElementById('startBtn').style.display = 'none';
+                    }
+                }
+            };
+            xhr.open('GET', 'controller/arduino-controller.php', true);
+            xhr.send();
+        } 
+
         // This function starts the pH monitoring process
         function startMonitoring() {
+            document.getElementById('startBtn').style.display = 'none';                        
+            document.getElementById('analyzingIcon').style.display = "inline-block";
+
 
             var startTime = Date.now(); // Record the start time
             var updateInterval; // To hold the interval for updating the pH level
@@ -969,6 +1047,12 @@
                 clearInterval(updateInterval); // Stop the interval
                 console.log('Stopped updating pH level after 30 seconds.');
                 document.getElementById('analyzingIcon').style.display = "none";
+                
+                setTimeout(function() {
+                    document.getElementById('restartBtn').style.display = 'inline-block';                        
+                    document.getElementById('saveBtn').style.display = 'inline-block';  
+                }, 2000);                      
+
             }
     
             function temperatureLevelFetchData() {
@@ -1008,8 +1092,12 @@
         // Initial WiFi status check
         function restartMonitoring() {
             startMonitoring(); // Start monitoring again
+            document.getElementById('restartBtn').style.display = "none";
+
         }
     
+        // Initial WiFi status check
+        updateWifiStatus();
     
         // Set up the click event on the "Start Monitoring" button to start monitoring
         document.getElementById('startBtn').addEventListener('click', startMonitoring);

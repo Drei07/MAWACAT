@@ -1,6 +1,6 @@
 <?php
 // Proxy script to forward requests to Arduino server
-$url = 'http://192.168.0.115/check_connection';
+$url = 'http://192.168.1.112/check_connection';
 $response = file_get_contents($url);
 
 // Check if response is empty or false (indicating no connection or error)

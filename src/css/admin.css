@@ -28,8 +28,8 @@ ol, ul {
 	--main: #000000;
 	--light-main: #c59de744;
 	--dark-main:#966abd;
-	--button:#f675c7;
-	--icon-pink:#f38ece;
+	--button:#000000;
+	--icon:#f7f7f7;
 	--light-pink:#e37eba8e;
 	--light-blue: #add5fc;
 	--dark-blue: #3d36a3da;
@@ -37,7 +37,7 @@ ol, ul {
 	--dark-grey: #AAAAAA;
 	--light-black: rgb(34, 34, 34);
 	--dark: #342E37;
-	--red: #f3d80c;
+	--red: #f30c0c;
 	--yellow: #FFCE26;
 	--light-yellow: #FFF2C6;
 	--orange: #FD7238;
@@ -169,7 +169,7 @@ border-right-color: var(--main);
 }
 
 .form-control:focus{
-	box-shadow: 0 0 0 0.2rem rgb(255, 235, 247);
+	box-shadow: 0 0 0 0.2rem rgb(209, 209, 209);
 	border-color: transparent;
 }
 
@@ -285,7 +285,7 @@ border-right-color: var(--main);
 	background: var(--main);
 }
 #sidebar .side-menu.top li.active a i{
-	color: var(--icon-pink);
+	color: var(--icon);
 }
 #sidebar.hide .side-menu li a {
 	width: calc(48px - (4px * 2));
@@ -1847,23 +1847,89 @@ border-right-color: var(--main);
 	margin: 10px;
 	margin-bottom: 20px;
 	width: 100%;
-	height: 300px;
-	padding: 20px;
-	background-color: white;
-	border-radius: 25px;
+	height: 350px;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	grid-gap: 20px;
 
 }
-.gauge_dashboard .status .arduino,.sensor{
-	background-color: #AAAAAA;
+.gauge_dashboard .status .card{
+	border-radius: 25px;
+	background-color: #FFF;
+	padding: 20px;
+	border: none;
+
+}
+.gauge_dashboard .status .arduino{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.gauge_dashboard .status .arduino h1{
+	font-family: 'Antonio';
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.gauge_dashboard .status .arduino .sensor-data{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.gauge_dashboard .status .arduino .status-item  {
+	display: flex;
+	align-items: flex-start;
+	justify-content: start;
+	margin: 10px;
+  }
+
+  .gauge_dashboard .status .arduino .status-item  .indicator {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin-right: 5px;
+	margin-top: 5px;
+  }
+  
+  .gauge_dashboard .status .arduino .status-item .light-green {
+	background-color: #00ff00;
+  }
+
+  .sensor-label {
+	margin: 0 10px;
+  }
+  
+
+.gauge_dashboard .status .time{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.gauge_dashboard .status .time h1{
+	font-size: 200px;
+	font-family: 'Antonio';
+	margin-top: -30px;
+
+}
+.gauge_dashboard .status .time h1 span{
+	font-size: 40px;
+}
+
+.gauge_dashboard .status .time button {
+	width: 150px;
+	border-radius: 20px;
+
 }
 .gauge_dashboard .status .buttons{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding: 20px;
 }
 
 .gauge_dashboard .status .buttons button{
@@ -1874,6 +1940,16 @@ border-right-color: var(--main);
 	border-radius: 20px;
 	border: none;
 	font-size: 15px;
+	font-weight: bold;
+}
+
+.gauge_dashboard .status .buttons form{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
 }
 
 .gauge_dashboard .gauge{
