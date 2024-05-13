@@ -7,7 +7,7 @@ include_once 'header.php';
 <head>
 	<?php echo $header_dashboard->getHeaderDashboard() ?>
 
-	<title>Audit Trail</title>
+	<title>Data Analysis</title>
 </head>
 
 <body>
@@ -30,11 +30,15 @@ include_once 'header.php';
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
-			<li>
-				<a href="data-analysis">
+
+
+			<li class="active">
+				<a href="metrics">
 					<i class='bx bxs-tachometer'></i>
 					<span class="text">Data Analysis</span>
 				</a>
+			</li>
+
 		</ul>
 		<ul class="side-menu top">
 			<li>
@@ -43,7 +47,7 @@ include_once 'header.php';
 					<span class="text">Settings</span>
 				</a>
 			</li>
-			<li class="active">
+			<li>
 				<a href="audit-trail">
 					<i class='bx bxl-blogger'></i>
 					<span class="text">Audit Trail</span>
@@ -84,14 +88,14 @@ include_once 'header.php';
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1>Audit Trail</h1>
+					<h1>Data Analysis</h1>
 					<ul class="breadcrumb">
 						<li>
 							<a class="active" href="./">Home</a>
 						</li>
 						<li>|</li>
 						<li>
-							<a href="">Audit Trail</a>
+							<a href="">Data Analysis</a>
 						</li>
 					</ul>
 				</div>
@@ -100,12 +104,12 @@ include_once 'header.php';
 			<div class="table-data">
 				<div class="order">
 					<div class="head">
-						<h3><i class='bx bxl-blogger'></i> Audit Trail</h3>
+						<h3><i class='bx bxs-report'></i> Water Quality Report</h3>
 					</div>
 					<!-- BODY -->
 					<section class="data-table">
 						<div class="searchBx">
-							<input type="input" placeholder="Search Logs . . . . . ." class="search" name="search_box" id="search_box"><button class="searchBtn"><i class="bx bx-search icon"></i></button>
+							<input type="input" placeholder="Search Date . . . . . ." class="search" name="search_box" id="search_box"><button class="searchBtn"><i class="bx bx-search icon"></i></button>
 						</div>
 
 						<div class="table">
@@ -130,7 +134,7 @@ include_once 'header.php';
 
 			function load_data(page, query = '') {
 				$.ajax({
-					url: "tables/logs-table.php",
+					url: "tables/data-analysis-table.php",
 					method: "POST",
 					data: {
 						page: page,

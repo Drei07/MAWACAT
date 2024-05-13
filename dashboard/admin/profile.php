@@ -28,6 +28,11 @@ include_once 'header.php';
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
+            <li>
+				<a href="data-analysis">
+					<i class='bx bxs-tachometer'></i>
+					<span class="text">Data Analysis</span>
+				</a>
 		</ul>
 		<ul class="side-menu top">
 			<li>

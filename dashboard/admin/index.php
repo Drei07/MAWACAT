@@ -33,9 +33,9 @@ include_once 'header.php';
 			</li>
 
 			<li>
-				<a href="metrics">
+				<a href="data-analysis">
 					<i class='bx bxs-tachometer'></i>
-					<span class="text">Metrics</span>
+					<span class="text">Data Analysis</span>
 				</a>
 			</li>
 		</ul>

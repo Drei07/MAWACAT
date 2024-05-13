@@ -209,7 +209,7 @@ $('.print').on('click', function (e) {
 
 	swal({
 		title: "Print?",
-		text: "Do you want to print the access token?",
+		text: "Do you want to print this water analyis report?",
 		icon: "info",
 		buttons: true,
 		dangerMode: true,
