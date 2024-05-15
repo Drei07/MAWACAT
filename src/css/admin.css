@@ -1841,13 +1841,10 @@ border-right-color: var(--main);
 	}
 
 }
-
 /* water anaylzer dashboard */
 .gauge_dashboard .status{
 	margin: 10px;
 	margin-bottom: 20px;
-	width: 100%;
-	height: 350px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	grid-gap: 20px;
@@ -1858,6 +1855,7 @@ border-right-color: var(--main);
 	background-color: #FFF;
 	padding: 20px;
 	border: none;
+	height: 350px;
 
 }
 .gauge_dashboard .status .arduino{
@@ -1953,7 +1951,6 @@ border-right-color: var(--main);
 }
 
 .gauge_dashboard .gauge{
-	width: 100%;
 	margin: 10px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
@@ -1968,6 +1965,64 @@ border-right-color: var(--main);
 	justify-content: center;
 	align-items: center;
 	border-radius: 25px;
+}
+
+
+@media screen and (max-width: 640px){
+	.gauge_dashboard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.gauge_dashboard .gauge .card{
+		height: 300px;
+		width: 400px;
+		padding: 5px;
+
+	}
+	.gauge_dashboard .status .card{
+		width: 400px;
+		padding: 10px;
+
+	}
+	.gauge_dashboard .gauge{
+		grid-template-columns: none;
+	}
+	.gauge_dashboard .gauge .gauge_card .card-title {
+		font-size: 12px;
+	}
+	.gauge_dashboard .status .arduino h1 {
+		font-size: 25px;
+	}
+}
+@media screen and (max-width: 510px){
+	.gauge_dashboard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.gauge_dashboard .gauge .card{
+		height: 300px;
+		width: 300px;
+
+	}
+	.gauge_dashboard .status .card{
+		width: 300px;
+		padding: 10px;
+
+	}
+	.gauge_dashboard .gauge{
+		grid-template-columns: none;
+	}
+	.gauge_dashboard .gauge .gauge_card .card-title {
+		font-size: 12px;
+	}
+	.gauge_dashboard .status .arduino h1 {
+		font-size: 25px;
+	}
+
 }
 .gauge_dashboard .gauge .gauge_card{
 	background-color: white;

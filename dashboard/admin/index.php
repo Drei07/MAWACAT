@@ -98,7 +98,6 @@ include_once 'header.php';
 			</div>
 
 			<ul class="dashboard_data">
-
 				<div class="gauge_dashboard">
 					<div class="status">
 						<div class="card arduino">
@@ -158,7 +157,7 @@ include_once 'header.php';
 							</form>
 						</div>
 					</div>
-					<div class="gauge phLevel">
+					<div class="gauge">
 						<div class="card gauge_card">
 							<p class="card-title">Temperature Level Gauge</p>
 							<div id="temperature_Level"></div>
@@ -176,7 +175,6 @@ include_once 'header.php';
 							<div id="turbidity_Level"></div>
 						</div>
 					</div>
-
 				</div>
 			</ul>
 		</main>

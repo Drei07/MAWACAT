@@ -74,7 +74,7 @@
             }
         })
 
-        pHlabel.set("text", value.toFixed(2).toString() + " pH");
+        pHlabel.set("text", value.toFixed(2).toString());
 
 
         pHclockHand.pin.animate({
@@ -197,8 +197,15 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         var data = JSON.parse(xhr.responseText);
-                        var phLevel = data.phLevel;
+                        var phLevel = data.phLevel; 
+                        var TDSLevel = data.TDSLevel;
+                        var turbidityLevel = data.turbidityLevel;
+                        var temperatureLevel = data.temperatureLevel;
+                        TDSGaugeUpdate(TDSLevel); // Assuming this is 
                         pHGaugeUpdate(phLevel); // Assuming this is a function you've defined elsewhere
+                        turbidity_GaugeUpdate(turbidityLevel); // Assuming this is a function you've defined elsewhere
+                        temperatureGaugeUpdate(temperatureLevel); // Assuming this is a function you've defined elsewhere
+
                     }
                 };
     
@@ -378,7 +385,7 @@
             }
         })
 
-        TDSlabel.set("text", Math.round(value).toString() + " ppm");
+        TDSlabel.set("text", Math.round(value).toString());
 
 
         TDSclockHand.pin.animate({
@@ -468,25 +475,25 @@
                     return;
                 }
                 
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        var TDSLevel = data.TDSLevel;
-                        TDSGaugeUpdate(TDSLevel); // Assuming this is a function you've defined elsewhere
-                    }
-                };
+                // var xhr = new XMLHttpRequest();
+                // xhr.onreadystatechange = function() {
+                //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                //         var data = JSON.parse(xhr.responseText);
+                //         var TDSLevel = data.TDSLevel;
+                //         TDSGaugeUpdate(TDSLevel); // Assuming this is a function you've defined elsewhere
+                //     }
+                // };
     
-                var postData = JSON.stringify({});
-                xhr.open('POST', 'controller/arduino-controller.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(postData);
+                // var postData = JSON.stringify({});
+                // xhr.open('POST', 'controller/arduino-controller.php', true);
+                // xhr.setRequestHeader('Content-Type', 'application/json');
+                // xhr.send(postData);
             }
     
             // Initial fetch
             TDSLevelFetchData();
             // Set an interval for continuous updates
-            updateInterval = setInterval(TDSLevelFetchData, 2000);
+            updateInterval = setInterval(TDSLevelFetchData, 3000);
         }
 
           // Function to restart monitoring
@@ -632,7 +639,7 @@
             }
         })
 
-        turbidity_label.set("text", Math.round(value).toString() + " NTU");
+        turbidity_label.set("text", Math.round(value).toString());
 
 
         turbidity_clockHand.pin.animate({
@@ -724,25 +731,25 @@
                     return;
                 }
     
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        var turbidityLevel = data.turbidityLevel;
-                        turbidity_GaugeUpdate(turbidityLevel); // Assuming this is a function you've defined elsewhere
-                    }
-                };
+                // var xhr = new XMLHttpRequest();
+                // xhr.onreadystatechange = function() {
+                //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                //         var data = JSON.parse(xhr.responseText);
+                //         var turbidityLevel = data.turbidityLevel;
+                //         turbidity_GaugeUpdate(turbidityLevel); // Assuming this is a function you've defined elsewhere
+                //     }
+                // };
     
-                var postData = JSON.stringify({});
-                xhr.open('POST', 'controller/arduino-controller.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(postData);
+                // var postData = JSON.stringify({});
+                // xhr.open('POST', 'controller/arduino-controller.php', true);
+                // xhr.setRequestHeader('Content-Type', 'application/json');
+                // xhr.send(postData);
             }
     
             // Initial fetch
             temperatureLevelFetchData();
             // Set an interval for continuous updates
-            updateInterval = setInterval(temperatureLevelFetchData, 2000);
+            updateInterval = setInterval(temperatureLevelFetchData, 3000);
         }
     
         // Function to restart monitoring
@@ -893,7 +900,7 @@
             }
         })
 
-        temperature_label.set("text", Math.round(value).toString() + "°C");
+        temperature_label.set("text", Math.round(value).toString());
 
         temperature_clockHand.pin.animate({
             key: "fill",
@@ -984,25 +991,25 @@
                     return;
                 }
     
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        var temperature = data.temperature;
-                        temperatureGaugeUpdate(temperature); // Assuming this is a function you've defined elsewhere
-                    }
-                };
+                // var xhr = new XMLHttpRequest();
+                // xhr.onreadystatechange = function() {
+                //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                //         var data = JSON.parse(xhr.responseText);
+                //         var temperatureLevel = data.temperatureLevel;
+                //         temperatureGaugeUpdate(temperatureLevel); // Assuming this is a function you've defined elsewhere
+                //     }
+                // };
     
-                var postData = JSON.stringify({});
-                xhr.open('POST', 'controller/arduino-controller.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(postData);
+                // var postData = JSON.stringify({});
+                // xhr.open('POST', 'controller/arduino-controller.php', true);
+                // xhr.setRequestHeader('Content-Type', 'application/json');
+                // xhr.send(postData);
             }
     
             // Initial fetch
             temperatureLevelFetchData();
             // Set an interval for continuous updates
-            updateInterval = setInterval(temperatureLevelFetchData, 2000);
+            updateInterval = setInterval(temperatureLevelFetchData, 3000);
         }
     
         // Initial WiFi status check
