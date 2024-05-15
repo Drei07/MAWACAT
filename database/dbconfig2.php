@@ -8,7 +8,7 @@
         $pdoConnect = new PDO("mysql:host=localhost;dbname=mawacat", "root", "");
     } else {
         // Live server connection
-		$pdoConnect = new PDO("mysql:host=localhost;dbname=u297724503_ecket", "u297724503_ecket", "E-cket@2023");
+		$pdoConnect = new PDO("mysql:host=localhost;dbname=u297724503_mawacat", "u297724503_mawacat", "Mawacat2024");
     }
 		$pdoConnect->setAttribute(PDO:: ATTR_ERRMODE, PDO:: ERRMODE_EXCEPTION);
 
