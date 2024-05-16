@@ -82,35 +82,36 @@ void handleCheckConnection() {
 
   int TDSsensorValue = analogRead(TDS_SENSOR_PIN);
   float TDS_Value = TDSsensorValue * TDS_CALIBRATION_FACTOR + TDS_CALIBRATION_OFFSET;
-  // Serial.print("TDS Value: ");
-  // Serial.print(TDS_Value);
-  // Serial.println(" ppm");
+  Serial.print("TDS Value: ");
+  Serial.print(TDS_Value);
+  Serial.println(" ppm");
 
   int pHsensorValue = analogRead(pH_SENSOR_PIN);
   float scalingFactor = (2.57 - 2.55) / (9.35 - 9.32);
   pH_Value = (pHsensorValue * (3.3 / 1023.0) - 9.32) * scalingFactor + 2.55;
 
-  // Serial.print("pH Value: ");
-  // Serial.print(pH_Value, 2);
-  // Serial.println(" pH");
+  Serial.print("pH Value: ");
+  Serial.print(pH_Value, 2);
+  Serial.println(" pH");
 
   sensors.requestTemperatures(); // Send the command to get temperatures
   float temperature_Value = sensors.getTempCByIndex(0); // Read temperature in Celsius
 
-  // if (temperature_Value != DEVICE_DISCONNECTED_C) {
-  //   Serial.print("Water Temperature: ");
-  //   Serial.print(temperature_Value);
-  //   Serial.println(" °C");
-  // } else {
-  //   Serial.println("Error: Unable to read temperature!");
-  // }
-  //   Serial.println("");
+  if (temperature_Value != DEVICE_DISCONNECTED_C) {
+    Serial.print("Water Temperature: ");
+    Serial.print(temperature_Value);
+    Serial.println(" °C");
+  } else {
+    Serial.println("Error: Unable to read temperature!");
+  }
+  Serial.println("");
+  
   delay(1000); // Delay for 1 second before the next reading
 
   StaticJsonDocument<256> jsonDoc;
   jsonDoc["wifi_status"] = (WiFi.status() == WL_CONNECTED) ? "Connected" : "Not Connected";
   jsonDoc["TDSLevel"] = TDS_Value;
-  jsonDoc["phLevel"] = pH_Value;
+  jsonDoc["phLevel"] = String(pH_Value, 2);
   jsonDoc["temperatureLevel"] = temperature_Value;
 
 
@@ -121,3 +122,43 @@ void handleCheckConnection() {
   // Send the JSON response
   server.send(200, "application/json", response);
 } -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arduino Connection Status</title>
+</head>
+<body>
+  <h1>Arduino Connection Status</h1>
+  <p id="wifi_status">Wifi Status: Unknown</p>
+  <p id="phLevel_status">pH Level Status: Unknown</p>
+  <p id="TDSLevel_status">TDS Level Status: Unknown</p>
+  <p id="temperatureLevel_status">Temperature Level Status: Unknown</p>
+
+  <script>
+    var ws = new WebSocket('ws://192.168.1.115:81/');
+
+    ws.onopen = function() {
+      console.log('WebSocket connection established');
+    };
+
+    ws.onmessage = function(event) {
+      var data = JSON.parse(event.data);
+      document.getElementById('wifi_status').innerText = 'Wifi Status: ' + data.wifi_status;
+      document.getElementById('phLevel_status').innerText = 'pH Level Status: ' + data.phLevel;
+      document.getElementById('TDSLevel_status').innerText = 'TDS Level Status: ' + data.TDSLevel;
+      document.getElementById('temperatureLevel_status').innerText = 'Temperature Level Status: ' + data.temperatureLevel;
+    };
+
+    ws.onclose = function() {
+      console.log('WebSocket connection closed');
+    };
+
+    ws.onerror = function(error) {
+      console.error('WebSocket error: ', error);
+    };
+  </script>
+</body>
+</html>

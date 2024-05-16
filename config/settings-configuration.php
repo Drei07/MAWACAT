@@ -140,8 +140,8 @@ class MainUrl {
     private $url;
 
     public function __construct() {
-        $this->url = "http://localhost/MAWACAT"; // localhost
-        // $this->url = "https://ecket.online"; // webhost
+        // $this->url = "http://localhost/MAWACAT"; // localhost
+        $this->url = "https://servify.cloud"; // webhost
     }
 
     public function getUrl() {
