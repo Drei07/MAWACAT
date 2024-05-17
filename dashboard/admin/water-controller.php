@@ -122,6 +122,8 @@ void handleCheckConnection() {
   // Send the JSON response
   server.send(200, "application/json", response);
 } -->
+
+
 <!-- 
 #include <WiFi.h>
 #include <WebSocketsServer.h>
@@ -219,3 +221,101 @@ void sendSensorData(uint8_t num) {
 
   webSocket.sendTXT(num, response);
 } -->
+
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+const char* ssid = "PLDTHOMEFIBRV75Zz";
+const char* password = "Andreishania07012000@";
+const char* serverName = "https://servify.cloud/dashboard/admin/controller/data.php"; // Replace with your proxy server URL
+
+// TDS
+const int TDS_SENSOR_PIN = 34; // TDS sensor connected to GPIO pin 34
+const float TDS_CALIBRATION_FACTOR = 0.5; // Calibration factor (adjust based on your sensor)
+const float TDS_CALIBRATION_OFFSET = 0.0; // Calibration offset (adjust based on your sensor)
+
+// pH
+const int pH_SENSOR_PIN = 35; // Assuming pH sensor connected to pin 35
+float pH_Value;
+
+// Temperature
+#define ONE_WIRE_BUS 32 // Pin where the DS18B20 is connected
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
+
+void setup() {
+  Serial.begin(9600);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("WiFi connected");
+  sensors.begin();
+}
+
+void loop() {
+
+    HTTPClient http;
+    http.begin(serverName);
+    
+    int TDSsensorValue = analogRead(TDS_SENSOR_PIN);
+    float TDS_Value = TDSsensorValue * TDS_CALIBRATION_FACTOR + TDS_CALIBRATION_OFFSET;
+    Serial.print("TDS Value: ");
+    Serial.print(TDS_Value);
+    Serial.println(" ppm");
+
+    int pHsensorValue = analogRead(pH_SENSOR_PIN);
+    float scalingFactor = (2.57 - 2.55) / (9.35 - 9.32);
+    pH_Value = (pHsensorValue * (3.3 / 1023.0) - 9.32) * scalingFactor + 2.55;
+
+    Serial.print("pH Value: ");
+    Serial.print(pH_Value, 2);
+    Serial.println(" pH");
+
+    sensors.requestTemperatures(); // Send the command to get temperatures
+    float temperature_Value = sensors.getTempCByIndex(0); // Read temperature in Celsius
+
+    if (temperature_Value != DEVICE_DISCONNECTED_C) {
+      Serial.print("Water Temperature: ");
+      Serial.print(temperature_Value);
+      Serial.println(" °C");
+    } else {
+      Serial.println("Error: Unable to read temperature!");
+    }
+    Serial.println("");
+    
+    delay(1000); // Delay for 1 second before the next reading
+
+    StaticJsonDocument<256> jsonDoc;
+    jsonDoc["wifi_status"] = (WiFi.status() == WL_CONNECTED) ? "Connected" : "Not Connected";
+    jsonDoc["TDSLevel"] = TDS_Value;
+    jsonDoc["phLevel"] = pH_Value;
+    jsonDoc["temperatureLevel"] = temperature_Value;
+
+    String response;
+    serializeJson(jsonDoc, response);
+
+    http.addHeader("Content-Type", "application/json");
+    int httpResponseCode = http.POST(response);
+
+    if (httpResponseCode > 0) {
+      String payload = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(payload);
+    } else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+    }
+
+    http.end();
+
+}
+
+void sensorvalue() {
+}

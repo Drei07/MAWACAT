@@ -60,7 +60,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "1em"
+        fontSize: "1.3em"
     }));
 
     pHaxisDataItem.set("value", 0);
@@ -227,7 +227,6 @@
             document.getElementById('restartBtn').style.display = "none";
             document.getElementById('saveBtn').style.display = 'none';                        
 
-
         }
         
         // Initial WiFi status check
@@ -371,7 +370,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "0.9em"
+        fontSize: "1.3em"
     }));
 
     TDSaxisDataItem.set("value", 0);
@@ -625,7 +624,7 @@
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "1em"
+        fontSize: "1.3em"
     }));
 
     turbidity_axisDataItem.set("value", 0);
