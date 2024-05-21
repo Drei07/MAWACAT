@@ -512,22 +512,18 @@
 
     // Create axis ranges bands
     var TDSbandsData = [{
-        title: "Acidic",
         color: "#f04922",
         lowScore: 0,
         highScore: 500
     }, {
-        title: "Acidic",
         color: "#fdae19",
         lowScore: 500,
         highScore: 1000
     }, {
-        title: "Neutral",
         color: "#f3eb0c",
         lowScore: 1000,
         highScore: 1500
     }, {
-        title: "Neutral",
         color: "#b0d136",
         lowScore: 1500,
         highScore: 2000
@@ -598,7 +594,7 @@
     var turbidity_xAxis = turbidity_chart.xAxes.push(am5xy.ValueAxis.new(turbidity_Gauge, {
         maxDeviation: 0,
         min: 0,
-        max: 100,
+        max: 1000,
         strictMinMax: true,
         renderer: turbidity_axisRenderer
     }));
@@ -769,30 +765,25 @@
 
     // Create axis ranges bands
     var turbidity_bandsData = [{
-        title: "Acidic",
         color: "#f04922",
         lowScore: 0,
-        highScore: 20
+        highScore: 200
     }, {
-        title: "Acidic",
         color: "#fdae19",
-        lowScore: 20,
-        highScore: 40
+        lowScore: 200,
+        highScore: 400
     }, {
-        title: "Neutral",
         color: "#f3eb0c",
-        lowScore: 40,
-        highScore: 60
+        lowScore: 400,
+        highScore: 600
     }, {
-        title: "Neutral",
         color: "#b0d136",
-        lowScore: 60,
-        highScore: 80
+        lowScore: 600,
+        highScore: 800
     }, {
-        title: "Semi Neutral",
         color: "#6699ff",
-        lowScore: 80,
-        highScore: 100
+        lowScore: 800,
+        highScore: 1000
     }];
 
     am5.array.each(turbidity_bandsData, function (data) {
@@ -898,8 +889,8 @@
                 fill = temperature_axisRange.get("axisFill").get("fill");
             }
         })
+        temperature_label.set("text", value.toFixed(2).toString());
 
-        temperature_label.set("text", Math.round(value).toString());
 
         temperature_clockHand.pin.animate({
             key: "fill",
@@ -940,11 +931,9 @@
 
                 // Update the gauge with the interpolated value
                 // Use Number.toFixed(2) to format with two decimal places
-                temperature_axisDataItem.set("value", Number(interpolatedValue.toFixed(0)));
-                document.getElementById('temperatureValue').value = (interpolatedValue.toFixed(0));
+                temperature_axisDataItem.set("value", Number(interpolatedValue.toFixed(2)));
+                document.getElementById('temperatureValue').value = (interpolatedValue.toFixed(2));
                 document.getElementById('temperatureValue1').innerText = (interpolatedValue.toFixed(2)) + '°C';
-
-
 
                 // Continue animation until duration is reached
                 if (progress < 1) {
@@ -1027,27 +1016,22 @@
 
     // Create axis ranges bands
     var temperature_bandsData = [{
-        title: "Acidic",
         color: "#f04922",
         lowScore: 0,
         highScore: 20
     }, {
-        title: "Acidic",
         color: "#fdae19",
         lowScore: 20,
         highScore: 40
     }, {
-        title: "Neutral",
         color: "#f3eb0c",
         lowScore: 40,
         highScore: 60
     }, {
-        title: "Neutral",
         color: "#b0d136",
         lowScore: 60,
         highScore: 80
     }, {
-        title: "Semi Neutral",
         color: "#6699ff",
         lowScore: 80,
         highScore: 100

@@ -1,5 +1,8 @@
 <?php
+
 $proxyServerUrl = 'https://servify.cloud/dashboard/admin/controller/data.php'; // Replace with your proxy server URL
+require_once '../authentication/admin-class.php';
+
 
 $response = file_get_contents($proxyServerUrl);
 if ($response !== false) {
@@ -16,4 +19,6 @@ if ($response !== false) {
 
     error_log("Failed to fetch data from proxy server.");
 }
+
+
 ?>
