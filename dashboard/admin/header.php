@@ -34,3 +34,33 @@ $user_civil_status      = $user_data['civil_status'];
 $user_phone_number      = $user_data['phone_number'];
 $user_email             = $user_data['email'];
 $user_last_update       = $user_data['updated_at'];
+
+// Query to fetch data from the water_quality_parameter table
+$stmt1 = $user->runQuery("SELECT * FROM water_quality_parameter");
+$stmt1->execute();
+$parameter_data = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+// Initialize variables
+$phLow = $phHigh = $tdsLow = $tdsHigh = $turbidityLow = $turbidityHigh = $temperatureLow = $temperatureHigh = null;
+
+// Iterate over the fetched data to assign values based on parameter IDs
+foreach ($parameter_data as $data) {
+    switch ($data['id']) {
+        case 1:
+            $phLow = $data['low'];
+            $phHigh = $data['high'];
+            break;
+        case 2:
+            $tdsLow = $data['low'];
+            $tdsHigh = $data['high'];
+            break;
+        case 3:
+            $turbidityLow = $data['low'];
+            $turbidityHigh = $data['high'];
+            break;
+        case 4:
+            $temperatureLow = $data['low'];
+            $temperatureHigh = $data['high'];
+            break;
+    }
+}

@@ -38,6 +38,13 @@ include_once 'header.php';
 					<span class="text">Data Analysis</span>
 				</a>
 			</li>
+
+			<li>
+				<a href="quality_parameter">
+					<i class='bx bx-water'></i>
+					<span class="text">Quality Parameter</span>
+				</a>
+			</li>
 		</ul>
 		<ul class="side-menu top">
 			<li>
@@ -97,8 +104,14 @@ include_once 'header.php';
 				</div>
 			</div>
 
+			</div>
 			<ul class="dashboard_data">
 				<div class="gauge_dashboard">
+					<div class="status">
+						<div class="card time">
+							<p>Analysis Report</p>
+						</div>
+					</div>
 					<div class="status">
 						<div class="card arduino">
 							<h1>SENSOR STATUS</h1>

@@ -64,6 +64,48 @@ class WaterQualityController
         header('Location: ../');
         exit(); // Exit after redirect
     }
+
+    public function setSensorParameter($sensorId, $lowValue, $highValue){
+        $stmt = $this->admin->runQuery('UPDATE water_quality_parameter SET low=:low , high=:high WHERE id=:id');
+        $exec = $stmt->execute(array(
+            ":id"    => $sensorId,
+            ":low"   => $lowValue,
+            ":high"   => $highValue
+        ));
+        if ($exec) {
+            if($sensorId == 1){
+                $_SESSION['status_title'] = "Success!";
+                $_SESSION['status'] = "pH Quality Paramaters Succesfully Update!";
+                $_SESSION['status_code'] = "success";
+                $_SESSION['status_timer'] = 40000;
+            }
+            elseif($sensorId == 2){
+                $_SESSION['status_title'] = "Success!";
+                $_SESSION['status'] = "TDS Quality Paramaters Succesfully Update!";
+                $_SESSION['status_code'] = "success";
+                $_SESSION['status_timer'] = 40000;
+            }
+            elseif($sensorId == 3){
+                $_SESSION['status_title'] = "Success!";
+                $_SESSION['status'] = "Turbidity Quality Paramaters Succesfully Update!";
+                $_SESSION['status_code'] = "success";
+                $_SESSION['status_timer'] = 40000;
+            }
+            elseif($sensorId == 4){
+                $_SESSION['status_title'] = "Success!";
+                $_SESSION['status'] = "Temperature Quality Paramaters Succesfully Update!";
+                $_SESSION['status_code'] = "success";
+                $_SESSION['status_timer'] = 40000;
+            }
+        } else {
+            $_SESSION['status_title'] = "Oops!";
+            $_SESSION['status'] = 'Something went wrong, please try again!';
+            $_SESSION['status_code'] = "error";
+            $_SESSION['status_timer'] = 100000;
+        }
+        header('Location: ../quality_parameter');
+        exit(); // Exit after redirect
+    }
 }
 
 if(isset($_POST['btn-set-time'])){
@@ -84,5 +126,15 @@ if(isset($_POST['btn-sensor-value'])){
 
     $sensors_value = new WaterQualityController();
     $sensors_value->sensosValue($user_id, $temperatureValue, $phValue, $TDSValue, $turbidityValue);
+}
+
+if(isset($_POST['btn-update-parameter'])){
+    $sensorId = trim($_POST['id']);
+    $lowValue = trim($_POST['low']);
+    $highValue = trim($_POST['high']);
+
+    $parameterValue = new WaterQualityController();
+    $parameterValue->setSensorParameter($sensorId, $lowValue, $highValue);
+
 }
 ?>

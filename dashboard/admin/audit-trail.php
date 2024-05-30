@@ -35,6 +35,7 @@ include_once 'header.php';
 					<i class='bx bxs-tachometer'></i>
 					<span class="text">Data Analysis</span>
 				</a>
+			</li>
 		</ul>
 		<ul class="side-menu top">
 			<li>
