@@ -109,7 +109,7 @@ include_once 'header.php';
 				<div class="gauge_dashboard">
 					<div class="status">
 						<div class="card time">
-							<p>Analysis Report</p>
+							<p id="report"></p>
 						</div>
 					</div>
 					<div class="status">
@@ -237,6 +237,18 @@ include_once 'header.php';
 	<?php include_once '../../config/sweetalert.php'; ?>
 	<script src="../../src/js/gauge.js"></script>
 	<script src="../../src/js/analyzingTime.js"></script>
+	<script>
+        // Pass PHP variables to JavaScript
+        var phLow = <?php echo json_encode($phLow); ?>;
+        var phHigh = <?php echo json_encode($phHigh); ?>;
+        var tdsLow = <?php echo json_encode($tdsLow); ?>;
+        var tdsHigh = <?php echo json_encode($tdsHigh); ?>;
+        var turbidityLow = <?php echo json_encode($turbidityLow); ?>;
+        var turbidityHigh = <?php echo json_encode($turbidityHigh); ?>;
+        var temperatureLow = <?php echo json_encode($temperatureLow); ?>;
+        var temperatureHigh = <?php echo json_encode($temperatureHigh); ?>;
+    </script>
+
 </body>
 
 </html>

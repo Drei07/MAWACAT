@@ -160,7 +160,7 @@
             xhr.open('GET', 'controller/arduino-controller.php', true);
             xhr.send();
         }
-    
+
         // This function starts the pH monitoring process
         function startMonitoring() {
             document.getElementById('startBtn').style.display = 'none';                        
@@ -169,16 +169,71 @@
 
             var startTime = Date.now(); // Record the start time
             var updateInterval; // To hold the interval for updating the pH level
-    
+   
             function stopUpdating() {
                 clearInterval(updateInterval); // Stop the interval
                 console.log('Stopped updating pH level after 30 seconds.');
-        
+
+                    // Perform data analysis
+                var sensorValues = {
+                    ph: phLevel,
+                    tds: TDSLevel,
+                    turbidity: turbidityLevel,
+                    temperature: temperatureLevel
+                };
+                
+                var report = generateReport(sensorValues);
+                console.log(report);
+                document.getElementById('report').innerText = report;
+
                 document.getElementById('analyzingIcon').style.display = "none";
                 document.getElementById('restartBtn').style.display = 'inline-block';                        
-                document.getElementById('saveBtn').style.display = 'inline-block';  
-                                 
+                document.getElementById('saveBtn').style.display = 'inline-block';                    
+            }
 
+            // Function to generate the report based on sensor values
+            function generateReport(sensorValues) {
+                
+                var report = "Sensor Analysis Report:\n";
+                var allWithinLimits = true;
+
+                // Check pH value
+                if (sensorValues.ph < phLow || sensorValues.ph > phHigh) {
+                    report += `pH value ${sensorValues.ph} is out of range (${phLow}-${phHigh}).\n`;
+                    allWithinLimits = false;
+                } else {
+                    report += `pH value ${sensorValues.ph} is within range.\n`;
+                }
+
+                // Check TDS value
+                if (sensorValues.tds < tdsLow || sensorValues.tds > tdsHigh) {
+                    report += `TDS value ${sensorValues.tds} is out of range (${tdsLow}-${tdsHigh}).\n`;
+                    allWithinLimits = false;
+                } else {
+                    report += `TDS value ${sensorValues.tds} is within range.\n`;
+                }
+
+                // Check turbidity value
+                if (sensorValues.turbidity < turbidityLow || sensorValues.turbidity > turbidityHigh) {
+                    report += `Turbidity value ${sensorValues.turbidity} is out of range (${turbidityLow}-${turbidityHigh}).\n`;
+                    allWithinLimits = false;
+                } else {
+                    report += `Turbidity value ${sensorValues.turbidity} is within range.\n`;
+                }
+
+                // Check temperature value
+                if (sensorValues.temperature < temperatureLow || sensorValues.temperature > temperatureHigh) {
+                    report += `Temperature value ${sensorValues.temperature} is out of range (${temperatureLow}-${temperatureHigh}).\n`;
+                    allWithinLimits = false;
+                } else {
+                    report += `Temperature value ${sensorValues.temperature} is within range.\n`;
+                }
+
+                if (allWithinLimits) {
+                    report += "All sensor values are within the specified limits.";
+                }
+
+                return report;
             }
     
             function pHLevelFetchData() {
@@ -205,7 +260,7 @@
                         pHGaugeUpdate(phLevel); // Assuming this is a function you've defined elsewhere
                         turbidity_GaugeUpdate(turbidityLevel); // Assuming this is a function you've defined elsewhere
                         temperatureGaugeUpdate(temperatureLevel); // Assuming this is a function you've defined elsewhere
-
+                        return[phLevel, TDSLevel, turbidityLevel, temperatureLevel];
                     }
                 };
     
