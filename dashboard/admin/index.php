@@ -108,8 +108,9 @@ include_once 'header.php';
 			<ul class="dashboard_data">
 				<div class="gauge_dashboard">
 					<div class="status">
-						<div class="card time">
-							<p id="report"></p>
+						<div class="card arduino">
+							<p class="report-title">Analysis Report</p>
+							<p class="report" id="report">Click start to create analysis report</p>
 						</div>
 					</div>
 					<div class="status">
@@ -119,7 +120,7 @@ include_once 'header.php';
 								<div class="status-item">
 									<span class="indicator light-green"></span>
 									<span class="sensor-label">Device :</span>
-									<span class="sensor-value" id="wifi_status">Connecting....</span>
+									<span class="sensor-value" id="wifi_status">Connecting</span>
 								</div>
 
 								<div class="status-item">
@@ -131,13 +132,13 @@ include_once 'header.php';
 								<div class="status-item">
 									<span class="indicator light-green"></span>
 									<span class="sensor-label">pH Level :</span>
-									<span class="sensor-value" id="pHlevel1">0 pH</span>
+									<span class="sensor-value" id="pHlevel1">0.00 pH</span>
 								</div>
 
 								<div class="status-item">
 									<span class="indicator light-green"></span>
 									<span class="sensor-label">TDS Level :</span>
-									<span class="sensor-value" id="TDSValue1">0 ppm</span>
+									<span class="sensor-value" id="TDSValue1">00 ppm</span>
 								</div>
 
 

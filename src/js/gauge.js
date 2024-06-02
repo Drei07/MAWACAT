@@ -165,16 +165,17 @@
         function startMonitoring() {
             document.getElementById('startBtn').style.display = 'none';                        
             document.getElementById('analyzingIcon').style.display = "inline-block";
+            document.getElementById('report').innerText = "Creating Report...";
 
-
+        
             var startTime = Date.now(); // Record the start time
             var updateInterval; // To hold the interval for updating the pH level
-   
-            function stopUpdating() {
+           
+            function stopUpdating(phLevel, TDSLevel, turbidityLevel, temperatureLevel) {
                 clearInterval(updateInterval); // Stop the interval
-                console.log('Stopped updating pH level after 30 seconds.');
-
-                    // Perform data analysis
+                console.log('Stopped updating pH level after the specified time limit.');
+        
+                // Perform data analysis
                 var sensorValues = {
                     ph: phLevel,
                     tds: TDSLevel,
@@ -185,69 +186,67 @@
                 var report = generateReport(sensorValues);
                 console.log(report);
                 document.getElementById('report').innerText = report;
-
+        
                 document.getElementById('analyzingIcon').style.display = "none";
                 document.getElementById('restartBtn').style.display = 'inline-block';                        
                 document.getElementById('saveBtn').style.display = 'inline-block';                    
             }
-
+        
             // Function to generate the report based on sensor values
             function generateReport(sensorValues) {
-                
-                var report = "Sensor Analysis Report:\n";
+                var report = "Based on sensor analysis,";
                 var allWithinLimits = true;
+                var formattedPh = sensorValues.ph.toFixed(2);
+                var formattedTDS = sensorValues.tds.toFixed(0);
+                var formattedTurbidity = sensorValues.turbidity.toFixed(0);
+                var formattedTemperature = sensorValues.temperature.toFixed(2);
+
 
                 // Check pH value
                 if (sensorValues.ph < phLow || sensorValues.ph > phHigh) {
-                    report += `pH value ${sensorValues.ph} is out of range (${phLow}-${phHigh}).\n`;
+                    report += ` The pH value is ${formattedPh}pH is out of range (${phLow}-${phHigh}).`;
                     allWithinLimits = false;
                 } else {
-                    report += `pH value ${sensorValues.ph} is within range.\n`;
+                    report += ` The pH value is ${formattedPh}pH is within range.`;
                 }
-
+        
                 // Check TDS value
                 if (sensorValues.tds < tdsLow || sensorValues.tds > tdsHigh) {
-                    report += `TDS value ${sensorValues.tds} is out of range (${tdsLow}-${tdsHigh}).\n`;
+                    report += ` The TDS value is ${formattedTDS}ppm is out of range (${tdsLow}-${tdsHigh}).`;
                     allWithinLimits = false;
                 } else {
-                    report += `TDS value ${sensorValues.tds} is within range.\n`;
+                    report += ` The TDS value is ${formattedTDS}ppm is within range.`;
                 }
-
+        
                 // Check turbidity value
                 if (sensorValues.turbidity < turbidityLow || sensorValues.turbidity > turbidityHigh) {
-                    report += `Turbidity value ${sensorValues.turbidity} is out of range (${turbidityLow}-${turbidityHigh}).\n`;
+                    report += ` The Turbidity value is ${formattedTurbidity}NTU is out of range (${turbidityLow}-${turbidityHigh}).`;
                     allWithinLimits = false;
                 } else {
-                    report += `Turbidity value ${sensorValues.turbidity} is within range.\n`;
+                    report += ` The Turbidity value is ${formattedTurbidity}NTU is within range.`;
                 }
-
+        
                 // Check temperature value
                 if (sensorValues.temperature < temperatureLow || sensorValues.temperature > temperatureHigh) {
-                    report += `Temperature value ${sensorValues.temperature} is out of range (${temperatureLow}-${temperatureHigh}).\n`;
+                    report += ` The Temperature value is ${formattedTemperature}°C is out of range (${temperatureLow}-${temperatureHigh}).`;
                     allWithinLimits = false;
                 } else {
-                    report += `Temperature value ${sensorValues.temperature} is within range.\n`;
+                    report += ` The Temperature value is ${formattedTemperature}°C is within range.`;
                 }
-
+        
                 if (allWithinLimits) {
-                    report += "All sensor values are within the specified limits.";
+                    report += " All sensor values are within the specified limits.";
                 }
-
+        
                 return report;
             }
-    
+        
             function pHLevelFetchData() {
                 var currentTime = Date.now();
                 var elapsedTime = currentTime - startTime;
-    
+        
                 var analyzingTimeLimit = parseInt(document.getElementById('analyzingTime').value, 10);
-
-                // Stop the function if 30 seconds have passed
-                if (elapsedTime >= analyzingTimeLimit) {
-                    stopUpdating();
-                    return;
-                }
-    
+        
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -256,25 +255,30 @@
                         var TDSLevel = data.TDSLevel;
                         var turbidityLevel = data.turbidityLevel;
                         var temperatureLevel = data.temperatureLevel;
-                        TDSGaugeUpdate(TDSLevel); // Assuming this is 
+                        
+                        TDSGaugeUpdate(TDSLevel); // Assuming this is a function you've defined elsewhere
                         pHGaugeUpdate(phLevel); // Assuming this is a function you've defined elsewhere
                         turbidity_GaugeUpdate(turbidityLevel); // Assuming this is a function you've defined elsewhere
                         temperatureGaugeUpdate(temperatureLevel); // Assuming this is a function you've defined elsewhere
-                        return[phLevel, TDSLevel, turbidityLevel, temperatureLevel];
+                        
+                        if (elapsedTime >= analyzingTimeLimit) {
+                            stopUpdating(phLevel, TDSLevel, turbidityLevel, temperatureLevel);
+                        }
                     }
                 };
-    
+        
                 var postData = JSON.stringify({});
                 xhr.open('POST', 'controller/arduino-controller.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(postData);
             }
-    
+        
             // Initial fetch
             pHLevelFetchData();
             // Set an interval for continuous updates
             updateInterval = setInterval(pHLevelFetchData, 2000);
         }
+        
 
         // Function to restart monitoring
         function restartMonitoring() {
