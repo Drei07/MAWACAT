@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header('Content-Type: application/json');
         echo json_encode($allData);
-    } else if (isset($_GET['device_id'])) {
+    } else if (isset($_GET['gps_id'])) {
         // Serve the latest GPS data for the specified device
-        $deviceId = $_GET['device_id'];
+        $deviceId = $_GET['gps_id'];
         $dataFile = $dataDir . $deviceId . '.json';
 
         if (file_exists($dataFile)) {
