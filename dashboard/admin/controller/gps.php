@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         file_put_contents($dataFile, json_encode($gpsDataArray));
         echo 'GPS Data received';
     } else {
-        echo 'Device ID missing';
+        echo 'GPS ID missing';
     }
 } else {
     // Check if request is to get data for all devices
@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header('Content-Type: application/json');
         echo json_encode($allData);
-    } else if (isset($_GET['gps_id'])) {
+    } else if (isset($_GET['device_id'])) {
         // Serve the latest GPS data for the specified device
-        $deviceId = $_GET['gps_id'];
+        $deviceId = $_GET['device_id'];
         $dataFile = $dataDir . $deviceId . '.json';
 
         if (file_exists($dataFile)) {
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'longitude' => 0.0,
                     'speed' => 0.0, // Default speed value
                     'satellites' => 0, // Default number of satellites
-                    'gps_id' => $deviceId // Include the device ID
+                    'gps_id' => $deviceId // Include the GPS ID
                 ]);
             } else {
                 header('Content-Type: application/json');
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'longitude' => 0.0,
                 'speed' => 0.0, // Default speed value
                 'satellites' => 0, // Default number of satellites
-                'gps_id' => $deviceId // Include the device ID
+                'gps_id' => $deviceId // Include the GPS ID
             ]);
         }
     } else {
