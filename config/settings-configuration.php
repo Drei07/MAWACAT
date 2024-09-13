@@ -141,7 +141,7 @@ class MainUrl {
 
     public function __construct() {
         // $this->url = "http://localhost/MAWACAT"; // localhost
-        $this->url = "https://servify.cloud"; // webhost
+        $this->url = "https://aquasense.online"; // webhost
     }
 
     public function getUrl() {

@@ -27,7 +27,7 @@ $footer_signin = new FooterSignin();
                         <div class="card-body">
 							<h4 class="card-title">Forgot Password</h4>
                             <a href="./" class="close"><img src="src/img/caret-right-fill.svg" alt="close-btn" width="24" height="24"></a>
-							<form action="dashboard/admin/authentication/admin-forgot-password.php" method="POST" class="my-login-validation" novalidate="">
+							<form action="dashboard/admin/authentication/admin-forgot-password.php" enctype="multipart/form-data"  method="POST" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label for="email">E-Mail Address</label>
 									<input id="email" type="email" class="form-control" name="email" value="" required autofocus>
