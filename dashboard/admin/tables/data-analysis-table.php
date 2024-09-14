@@ -46,7 +46,7 @@ if($_POST['query'] != '')
   ";
 }
 
-$query .= 'ORDER BY id ASC ';
+$query .= 'ORDER BY id DESC ';
 
 $filter_query = $query . 'LIMIT '.$start.', '.$limit.'';
 
