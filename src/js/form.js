@@ -221,6 +221,43 @@ $('.print').on('click', function (e) {
 		});
 })
 
+$('.print_excel').on('click', function (e) {
+	e.preventDefault();
+	const href = $(this).attr('href')
+
+	swal({
+		title: "Print Excel?",
+		text: "Do you want to print an excel copy fo this water analyis report?",
+		icon: "info",
+		buttons: true,
+		dangerMode: true,
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				document.location.href = href;
+			}
+		});
+})
+
+
+$('.print_word').on('click', function (e) {
+	e.preventDefault();
+	const href = $(this).attr('href')
+
+	swal({
+		title: "Print MS Word?",
+		text: "Do you want to print an Word copy of this water analyis report?",
+		icon: "info",
+		buttons: true,
+		dangerMode: true,
+	})
+		.then((willDelete) => {
+			if (willDelete) {
+				document.location.href = href;
+			}
+		});
+})
+
 //print
 $('.view').on('click', function (e) {
 	e.preventDefault();

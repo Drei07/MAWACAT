@@ -238,12 +238,12 @@ if (isset($_GET['delete_avatar'])) {
     $ProfileSettings->updateAvatarToDefault($user_id);
 }
 
-BSIT-2G
+// BSIT-2G
 
-GROUP 1 - 2
-GROUP 2 -10
-GROUP 3 - 10
-GROUP 4 -3
-GROUP 5 - 2
-GROUP 6 - 1
-GROUP 7 - 0
+// GROUP 1 - 2
+// GROUP 2 -10
+// GROUP 3 - 10
+// GROUP 4 -3
+// GROUP 5 - 2
+// GROUP 6 - 1
+// GROUP 7 - 0

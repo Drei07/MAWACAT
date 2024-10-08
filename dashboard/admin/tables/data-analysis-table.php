@@ -70,8 +70,8 @@ $output = '
     <th>pH LEVEL</th>
     <th>TDS LEVEL</th>
     <th>TURBIDITY LEVEL</th>
-    <th>DATE OF ANALYSIS</th>
-    <th>ACTION</th>
+    <th>DATEOF ANALYSIS</th>
+    <th>PRINT <i class="bx bxs-printer"></i></th>
     </thead>
 ';
   while($row=$statement->fetch(PDO::FETCH_ASSOC))
@@ -79,7 +79,7 @@ $output = '
 
     $output .= '
     
-    <tr>
+    <tr> 
       <td>'.$row["id"].'</td>
       <td>'.$row["temperature_level"].' °C</td>
       <td>'.$row["ph_level"].' pH</td>
@@ -87,7 +87,10 @@ $output = '
       <td>'.$row["turbidity_level"].' NTU</td>
       <td>'.date("F j, Y h:i A", strtotime($row['created_at'])).'</td>
       <td>
-      <button type="button" class="btn btn-primary V"><a href="../pdf/'.$row["id"].'" class="print" download><i class="bx bxs-printer"></i></a></button>
+      <button type="button" class="btn btn-primary V"><a href="../pdf/'.$row["id"].'" class="print" download>pdf</a></button>
+      <button type="button" class="btn btn-success V"><a href="../pdf/'.$row["id"].'" class="print_excel" download>.csv</a></button>
+      <button type="button" class="btn btn-info V"><a href="../pdf/'.$row["id"].'" class="print_word" download>.docs</a></button>
+
       </td>        
     </tr>
     ';

@@ -109,12 +109,6 @@ include_once 'header.php';
 				<div class="gauge_dashboard">
 					<div class="status">
 						<div class="card arduino">
-							<p class="report-title">Analysis Report</p>
-							<p class="report" id="report">Click start to create analysis report</p>
-						</div>
-					</div>
-					<div class="status">
-						<div class="card arduino">
 							<h1>SENSOR STATUS</h1>
 							<div class="sensor-data">
 								<div class="status-item">
@@ -149,6 +143,12 @@ include_once 'header.php';
 								</div>
 							</div>
 						</div>
+						<div class="card arduino">
+							<p class="report-title">Analysis Report</p>
+							<p class="report" id="report">Click start to create analysis report</p>
+						</div>
+					</div>
+					<div class="status">
 						<div class="card time">
 							<h1 id="countdownTimer"><?php echo $config->getanalyzingTime() / 1000; ?><span>s</span></h1>
 							<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#setTimeModals">SET</button>
