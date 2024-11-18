@@ -1,32 +1,24 @@
 <?php
-$targetDir = "uploads/";  // Directory to save uploaded images
-
-// Check if the uploads directory exists, if not, create it
-if (!is_dir($targetDir)) {
-    mkdir($targetDir, 0777, true);
-}
-
-// Debug: Log the request method and all headers
-file_put_contents("debug_log.txt", "Request Method: " . $_SERVER['REQUEST_METHOD'] . "\n", FILE_APPEND);
-file_put_contents("debug_log.txt", "Headers: " . json_encode(getallheaders()) . "\n", FILE_APPEND);
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Debug: Check if files are uploaded
     if (isset($_FILES['file'])) {
-        $file = $_FILES['file'];
-        $fileName = "capture_" . time() . ".jpg";  // Generate a unique name for the image
-        $targetFilePath = $targetDir . $fileName;
+        // Define the upload directory
+        $uploadDir = 'uploads/';
 
-        // Move the uploaded file to the target directory
-        if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
-            echo "Image uploaded successfully!";
+        // Generate a unique file name using the current timestamp and a random number (or use UUID)
+        $uniqueId = uniqid('', true);  // Generates a unique ID based on the current time and a random component
+        $fileExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);  // Get file extension
+        $uploadFile = $uploadDir . $uniqueId . '.' . $fileExtension;  // Create a unique file name
+
+        // Move the uploaded file to the desired directory
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
+            echo 'File successfully uploaded with the name: ' . basename($uploadFile);
         } else {
-            echo "Failed to upload image!";
+            echo 'Error uploading file.';
         }
     } else {
-        echo "No file uploaded!";
+        echo 'No file uploaded.';
     }
 } else {
-    echo "Invalid request!";
+    echo 'Invalid request method.';
 }
 ?>
