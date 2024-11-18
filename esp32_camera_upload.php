@@ -6,7 +6,12 @@ if (!is_dir($targetDir)) {
     mkdir($targetDir, 0777, true);
 }
 
+// Debug: Log the request method and all headers
+file_put_contents("debug_log.txt", "Request Method: " . $_SERVER['REQUEST_METHOD'] . "\n", FILE_APPEND);
+file_put_contents("debug_log.txt", "Headers: " . json_encode(getallheaders()) . "\n", FILE_APPEND);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Debug: Check if files are uploaded
     if (isset($_FILES['file'])) {
         $file = $_FILES['file'];
         $fileName = "capture_" . time() . ".jpg";  // Generate a unique name for the image
