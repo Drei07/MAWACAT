@@ -2,10 +2,16 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     $image = $_FILES['image'];
 
-    // Ensure an image file is provided
+    // Ensure image was uploaded without error
     if ($image['error'] === UPLOAD_ERR_OK) {
-        // Display the file name
-        echo "File name: " . htmlspecialchars($image['name']);
+        $uploadDir = 'uploads/';
+        $uploadFile = $uploadDir . basename($image['name']);
+        
+        if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
+            echo "Image uploaded successfully!";
+        } else {
+            echo "Error uploading image.";
+        }
     } else {
         echo "File upload error!";
     }
