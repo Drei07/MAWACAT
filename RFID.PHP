@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 $host = 'localhost';
-$username = 'root'; // Replace with your DB username
+$username = 'u297724503_mawacatv2'; // Replace with your DB username
 $password = ''; // Replace with your DB password
-$database = 'RFID'; // Replace with your DB name
+$database = 'YFdmoYL|R7o'; // Replace with your DB name
 
 // Create connection
 $conn = new mysqli($host, $username, $password, $database);
