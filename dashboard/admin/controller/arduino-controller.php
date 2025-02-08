@@ -1,6 +1,6 @@
 <?php
 
-$proxyServerUrl = 'https://servify.cloud/dashboard/admin/controller/data.php'; // Replace with your proxy server URL
+$proxyServerUrl = 'https://aquasense.online/dashboard/admin/controller/data.php'; // Replace with your proxy server URL
 require_once '../authentication/admin-class.php';
 
 
