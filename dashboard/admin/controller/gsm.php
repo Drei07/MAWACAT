@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dataArray = json_decode($data, true);
     
     if (isset($dataArray['gpsCoordinates'])) {
-        // Extract GPS data using regex
-        preg_match('/Lat:\s*([-0-9.]+),\s*Lon:\s*([-0-9.]+),\s*Speed:\s*([0-9]+)\s*km\/h,\s*Satellites:\s*([0-9]+)/', 
+        // Updated regex to allow decimals in speed
+        preg_match('/Lat:\s*([-0-9.]+),\s*Lon:\s*([-0-9.]+),\s*Speed:\s*([0-9.]+)\s*km\/h,\s*Satellites:\s*([0-9]+)/', 
                     $dataArray['gpsCoordinates'], $matches);
 
         $latitude = isset($matches[1]) ? $matches[1] : null;
