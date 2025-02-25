@@ -1,58 +1,40 @@
 <?php
-
-// Directory to store the latest sound sensor data for each device
-$dataDir = 'sound_data/';
-$timeoutDuration = 60; // 1-minute timeout duration
-
-// Ensure the data directory exists
-if (!file_exists($dataDir)) {
-    mkdir($dataDir, 0777, true);
-}
+// File to store the latest data
+$dataFile = 'latest_data.json';
+$timeoutDuration = 60; // 1 minute timeout duration
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Receive data from the sound sensor device
+    // Receive data from ESP32 and save it to the file
     $data = file_get_contents('php://input');
-    $sensorDataArray = json_decode($data, true);
-
-    if ($sensorDataArray === null) {
-        echo json_encode(["error" => "Invalid JSON received"]);
-        exit;
-    }
-
-    // Validate the required fields
-    if (!isset($sensorDataArray['DeviceID']) || !isset($sensorDataArray['dbValue'])) {
-        echo json_encode(["error" => "DeviceID or dbValue missing"]);
-        exit;
-    }
-
-    $deviceId = preg_replace('/[^a-zA-Z0-9_-]/', '', $sensorDataArray['DeviceID']); // Sanitize DeviceID
-    $dataFile = $dataDir . $deviceId . '.json';
-
-    // Add a timestamp
-    $sensorDataArray['timestamp'] = time();
-
-    // Store the updated data
-    if (file_put_contents($dataFile, json_encode($sensorDataArray)) === false) {
-        echo json_encode(["error" => "Failed to save data"]);
-    } else {
-        echo json_encode(["success" => "Sound Sensor Data received"]);
-    }
+    $dataArray = json_decode($data, true);
+    $dataArray['timestamp'] = time(); // Add a timestamp
+    file_put_contents($dataFile, json_encode($dataArray));
+    echo 'Data received';
 } else {
-    // Serve the latest sound sensor data for all active devices
-    $allData = [];
-    foreach (glob($dataDir . '*.json') as $filename) {
-        $sensorData = json_decode(file_get_contents($filename), true);
-        if (!$sensorData) continue;
-
+    // Serve the latest data
+    if (file_exists($dataFile)) {
+        $data = json_decode(file_get_contents($dataFile), true);
         $currentTime = time();
-        $dataAge = $currentTime - $sensorData['timestamp'];
-
-        if ($dataAge <= $timeoutDuration) {
-            $allData[] = $sensorData;
+        $dataAge = $currentTime - $data['timestamp'];
+        
+        if ($dataAge > $timeoutDuration) {
+            echo json_encode([
+                'wifi_status' => 'No device found',
+                'DeviceID' => 0.0,
+                'dbValue' => 0.0,
+                'soundStatus' => 0.0
+            ]);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($data);
         }
+    } else {
+        echo json_encode([
+            'wifi_status' => 'No device found',
+            'DeviceID' => 0.0,
+            'dbValue' => 0.0,
+            'soundStatus' => 0.0
+        ]);
     }
-    header('Content-Type: application/json');
-    echo json_encode($allData);
 }
-
 ?>
