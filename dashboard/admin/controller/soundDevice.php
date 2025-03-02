@@ -31,7 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Add a timestamp
     $sensorDataArray['timestamp'] = time();
 
-
+    // Store the updated data
+    if (file_put_contents($dataFile, json_encode($sensorDataArray)) === false) {
+    } else {
+    }
 } else {
     // Serve the latest sound sensor data for all active devices
     $allData = [];
