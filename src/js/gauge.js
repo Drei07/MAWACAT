@@ -204,7 +204,7 @@ function pHsetupWiFiStatusCheckAndEnableMonitoring() {
             // Function to trigger email using AJAX
             function sendEmail(report) {
                 $.ajax({
-                    url: "send_email.php", // Path to PHP email script
+                    url: "../../dashboard/admin/controller/send_email.php",
                     type: "POST",
                     data: { report: report },
                     success: function (response) {

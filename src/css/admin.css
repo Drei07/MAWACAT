@@ -1923,18 +1923,16 @@ border-right-color: var(--main);
 
 }
 .gauge_dashboard .status .arduino .report-title{
-	margin-top: -1rem;
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: bold;
 	text-align: right;
 }
 .gauge_dashboard .status .arduino .report{
-	font-size: 20px;
+	font-size: 12px;
 	font-weight: 600;
 	text-align: justify;
-	padding: 40px;
-	word-spacing: 10px;
-	letter-spacing: 2px;
+	padding: 10px;
+	word-spacing: 1px;
 }
 .gauge_dashboard .status .buttons{
 	display: flex;
